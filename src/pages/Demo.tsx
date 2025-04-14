@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -36,7 +37,15 @@ import {
 import axios from "axios";
 
 // Register Chart.js components
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 // Form validation schema with Zod
 const formSchema = z.object({
@@ -84,12 +93,18 @@ const Demo = () => {
     formData.append("query", values.query);
 
     try {
-      const res = await axios.post("https://misbahkhan-r2-tuning.hf.space/predict", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const res = await axios.post(
+        "https://misbahkhan-r2-tuning.hf.space/predict",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       setResponse(res.data);
     } catch (err: any) {
-      setError(err.response?.data?.detail || "An error occurred while processing the request.");
+      setError(
+        err.response?.data?.detail || "An error occurred while processing the request."
+      );
     } finally {
       setLoading(false);
     }
@@ -103,9 +118,9 @@ const Demo = () => {
           {
             label: "Saliency Score",
             data: response.highlight_detection.map((point) => point.y),
-            borderColor: "rgba(75, 192, 192, 1)",
-            backgroundColor: "rgba(75, 192, 192, 0.2)",
-            fill: false,
+            borderColor: "#2B6B5A",
+            backgroundColor: "rgba(43, 107, 90, 0.2)",
+            fill: true,
             tension: 0.3,
           },
         ],
@@ -125,8 +140,15 @@ const Demo = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center mb-6">🌀 R²-Tuning Demo</h1>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="max-w-5xl mx-auto p-6"
+    >
+      <h1 className="text-3xl font-bold text-center mb-6 text-[#2B6B5A]">
+        🌀 R²-Tuning Demo
+      </h1>
 
       {/* Form */}
       <Card className="mb-6">
@@ -163,7 +185,10 @@ const Demo = () => {
                   <FormItem>
                     <FormLabel>Text Query (5-15 words)</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter a descriptive sentence..." {...field} />
+                      <Input
+                        placeholder="Enter a descriptive sentence..."
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -179,9 +204,7 @@ const Demo = () => {
 
       {/* Error Message */}
       {error && (
-        <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-md">
-          {error}
-        </div>
+        <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-md">{error}</div>
       )}
 
       {/* Results */}
@@ -227,7 +250,7 @@ const Demo = () => {
           )}
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 
