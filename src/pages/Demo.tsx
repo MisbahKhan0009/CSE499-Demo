@@ -144,10 +144,10 @@ const Demo = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="max-w-5xl mx-auto p-6"
+      className="max-w-5xl mx-auto p-6 mt-6"
     >
       <h1 className="text-3xl font-bold text-center mb-6 text-[#2B6B5A]">
-        🌀 R²-Tuning Demo
+        Moment Retrival Demo
       </h1>
 
       {/* Form */}
