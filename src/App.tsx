@@ -1,6 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Home from '@/pages/Home';
@@ -8,12 +6,9 @@ import Demo from '@/pages/Demo';
 import About from '@/pages/About';
 import RecentWorks from '@/pages/RecentWorks';
 import ExperimentalSetup from '@/pages/ExperimentalSetup';
-import Applications from '@/pages/Applications'; // Add this import
-import { ROUTES } from '@/lib/constants';
+import Applications from '@/pages/Applications';
 
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   return (
     <Router>
       <div className="min-h-screen bg-gray-50 flex flex-col w-screen">
@@ -31,6 +26,7 @@ function App() {
               <Route path="/experimental-setup" element={<ExperimentalSetup />} />
               <Route path="/applications" element={<Applications />} />
               <Route path="/demo" element={<Demo />} />
+              <Route path="/about" element={<About />} />
             </Routes>
           </div>
         </main>

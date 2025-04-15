@@ -1,65 +1,23 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import {
-  Button,
-  Input,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
+import { Button, Input, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Card, CardContent, CardHeader, CardTitle, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui";
 import axios from "axios";
 
 // Register Chart.js components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 // Form validation schema with Zod
 const formSchema = z.object({
   video: z
     .instanceof(FileList)
     .refine((files) => files.length > 0, "Please upload a video file")
-    .refine(
-      (files) => files[0]?.type.startsWith("video/"),
-      "File must be a video"
-    ),
-  query: z
-    .string()
-    .min(5, "Query must be at least 5 characters")
-    .max(100, "Query must be less than 100 characters"),
+    .refine((files) => files[0]?.type.startsWith("video/"), "File must be a video"),
+  query: z.string().min(5, "Query must be at least 5 characters").max(100, "Query must be less than 100 characters"),
 });
 
 // Type for API response
@@ -72,6 +30,7 @@ const Demo = () => {
   const [response, setResponse] = useState<ApiResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [videoPreview, setVideoPreview] = useState<string | null>(null);
 
   // Initialize form with React Hook Form and Zod
   const form = useForm<z.infer<typeof formSchema>>({
@@ -93,18 +52,12 @@ const Demo = () => {
     formData.append("query", values.query);
 
     try {
-      const res = await axios.post(
-        "https://misbahkhan-r2-tuning.hf.space/predict",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      const res = await axios.post("https://misbahkhan-r2-tuning.hf.space/predict", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       setResponse(res.data);
     } catch (err: any) {
-      setError(
-        err.response?.data?.detail || "An error occurred while processing the request."
-      );
+      setError(err.response?.data?.detail || "An error occurred while processing the request.");
     } finally {
       setLoading(false);
     }
@@ -139,16 +92,28 @@ const Demo = () => {
     },
   };
 
+  // Add this function to handle video preview
+  const handleVideoChange = (files: FileList | null) => {
+    if (files && files[0]) {
+      const file = files[0];
+      const videoUrl = URL.createObjectURL(file);
+      setVideoPreview(videoUrl);
+      form.setValue("video", files);
+    }
+  };
+
+  // Add cleanup for video preview URL
+  useEffect(() => {
+    return () => {
+      if (videoPreview) {
+        URL.revokeObjectURL(videoPreview);
+      }
+    };
+  }, [videoPreview]);
+
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="max-w-5xl mx-auto p-6 mt-6"
-    >
-      <h1 className="text-3xl font-bold text-center mb-6 text-[#2B6B5A]">
-        Moment Retrival Demo
-      </h1>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="max-w-5xl mx-auto p-6 mt-6">
+      <h1 className="text-3xl font-bold text-center mb-6 text-[#2B6B5A]">Moment Retrival Demo</h1>
 
       {/* Form */}
       <Card className="mb-6">
@@ -169,11 +134,18 @@ const Demo = () => {
                         type="file"
                         accept="video/*"
                         onChange={(e) => {
-                          onChange(e.target.files);
+                          handleVideoChange(e.target.files);
                         }}
                         {...rest}
                       />
                     </FormControl>
+                    {videoPreview && (
+                      <div className="mt-4 rounded-lg overflow-hidden bg-gray-100">
+                        <video src={videoPreview} controls className="w-full max-h-[400px] object-contain">
+                          Your browser does not support the video tag.
+                        </video>
+                      </div>
+                    )}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -185,10 +157,7 @@ const Demo = () => {
                   <FormItem>
                     <FormLabel>Text Query (5-15 words)</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Enter a descriptive sentence..."
-                        {...field}
-                      />
+                      <Input placeholder="Enter a descriptive sentence..." {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -203,9 +172,7 @@ const Demo = () => {
       </Card>
 
       {/* Error Message */}
-      {error && (
-        <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-md">{error}</div>
-      )}
+      {error && <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-md">{error}</div>}
 
       {/* Results */}
       {response && (
