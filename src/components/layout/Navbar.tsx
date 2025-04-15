@@ -1,45 +1,37 @@
-import { motion } from 'framer-motion';
-import { Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { ROUTES } from '@/lib/constants';
 
 const Navbar = () => {
   return (
-    <motion.nav 
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <Link to={ROUTES.HOME} className="flex items-center space-x-2">
-            <Eye className="w-8 h-8 text-[#2B6B5A]" />
-            <span className="text-xl font-bold text-[#2B6B5A]">VisionGuard</span>
+    <nav className="py-4">
+      <div className="flex items-center justify-between">
+        <Link to="/" className="text-2xl font-bold text-primary-600">
+          VisionGuard
+        </Link>
+        <div className="flex gap-6">
+          <Link to="/" className="text-gray-600 hover:text-primary-600 transition-colors">
+            Home
           </Link>
-          
-          <div className="flex space-x-8">
-            <Link 
-              to={ROUTES.HOME}
-              className="text-gray-600 hover:text-[#2B6B5A] transition-colors"
-            >
-              Home
-            </Link>
-            <Link 
-              to={ROUTES.DEMO}
-              className="text-gray-600 hover:text-[#2B6B5A] transition-colors"
-            >
-              Demo
-            </Link>
-            <Link 
-              to={ROUTES.ABOUT}
-              className="text-gray-600 hover:text-[#2B6B5A] transition-colors"
-            >
-              About
-            </Link>
-          </div>
+          <Link to="/recent-works" className="text-gray-600 hover:text-primary-600 transition-colors">
+            Recent Works
+          </Link>
+          <Link to="/experimental-setup" className="text-gray-600 hover:text-primary-600 transition-colors">
+            Experimental Setup
+          </Link>
+          <Link to="/applications" className="text-gray-600 hover:text-primary-600 transition-colors">
+            Applications
+          </Link>
+          <Link to="/demo" className="text-gray-600 hover:text-primary-600 transition-colors">
+            Demo
+          </Link>
+          <Link to="/about" className="text-gray-600 hover:text-primary-600 transition-colors">
+            About
+          </Link>
+          <Link to="/results" className="text-gray-600 hover:text-primary-600 transition-colors">
+            Results
+          </Link>
         </div>
       </div>
-    </motion.nav>
+    </nav>
   );
 };
 
