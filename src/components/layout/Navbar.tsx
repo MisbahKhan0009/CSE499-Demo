@@ -4,8 +4,13 @@ const Navbar = () => {
   return (
     <nav className="py-4">
       <div className="flex items-center justify-between">
-        <Link to="/" className="text-2xl font-bold text-primary-600">
-          VisionGuard
+        <Link to="/" className="flex items-center gap-2">
+          <img 
+            src="/logo-green.png" 
+            alt="VisionGuard Logo" 
+            className="h-8 w-auto"
+          />
+          <span className="text-2xl font-bold text-primary-600">VisionGuard</span>
         </Link>
         <div className="flex gap-6">
           <Link to="/" className="text-gray-600 hover:text-primary-600 transition-colors">

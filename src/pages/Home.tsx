@@ -1,6 +1,17 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Camera, Shield, Zap, ArrowRight, Award, ChartBar, Brain } from 'lucide-react';
+import { 
+  Camera, 
+  Shield, 
+  Zap, 
+  ArrowRight, 
+  Eye, 
+  Lock, 
+  Cpu,
+  BarChart, 
+  Award,
+  Brain 
+} from 'lucide-react';
 import { ROUTES } from '@/lib/constants';
 
 const Home = () => {
@@ -12,37 +23,87 @@ const Home = () => {
       className="w-full"
     >
       {/* Hero Section */}
-      <section className="w-full bg-gradient-to-b from-primary-50 to-white">
-        <div className="container mx-auto px-4 py-32 w-full">
-          <div className="w-full text-center">
-            <motion.h1 
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="text-5xl md:text-7xl font-bold text-primary-600 leading-tight"
-            >
-              VisionGuard
-            </motion.h1>
-            <motion.p 
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="mt-6 text-xl md:text-2xl text-secondary-600 mx-auto leading-relaxed"
-            >
-              Advanced anomaly detection for security surveillance using cutting-edge deep learning technology.
-            </motion.p>
-            <motion.div 
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.6 }}
-              className="mt-12"
-            >
-              <Link 
-                to={ROUTES.DEMO}
-                className="inline-flex items-center px-8 py-4 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-all duration-300 transform hover:scale-105 shadow-soft hover:shadow-hover"
+      <section className="relative w-full min-h-[80vh] bg-gradient-to-b from-primary-50 via-primary-100/50 to-white overflow-hidden flex items-center">
+        {/* Floating Icons Background */}
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.1 }}
+            transition={{ duration: 1 }}
+            className="absolute inset-0 grid grid-cols-6 gap-8 p-8"
+          >
+            {[Eye, Lock, Camera, Shield, Zap, Cpu].map((Icon, index) => (
+              <motion.div
+                key={index}
+                initial={{ y: 0 }}
+                animate={{ 
+                  y: [0, -20, 0],
+                  rotate: [0, 5, -5, 0]
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  delay: index * 0.2,
+                  ease: "easeInOut"
+                }}
+                className="flex items-center justify-center"
               >
-                Try Demo <ArrowRight className="ml-2 w-5 h-5" />
-              </Link>
+                <Icon className="w-12 h-12 text-primary-300" />
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Main Content */}
+        <div className="container relative mx-auto px-4 py-32 w-full z-10">
+          <div className="w-full text-center">
+            {/* Glassmorphism Card */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="  p-12  inline-block max-w-4xl mx-auto  "
+            >
+              <motion.div
+                initial={{ scale: 0.9 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="flex items-center justify-center gap-3 mb-6"
+              >
+                
+                <h1 className="text-5xl md:text-7xl font-bold text-primary-600 leading-tight">
+                  VisionGuard
+                </h1>
+              </motion.div>
+
+              <motion.p 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="mt-6 text-xl md:text-2xl text-primary-800/80 mx-auto leading-relaxed max-w-2xl"
+              >
+                Advanced anomaly detection for security surveillance using cutting-edge deep learning technology.
+              </motion.p>
+
+              <motion.div 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.6 }}
+                className="mt-12 flex gap-4 justify-center"
+              >
+                <Link 
+                  to={ROUTES.DEMO}
+                  className="inline-flex items-center px-8 py-4 hover:text-white bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-all duration-300 transform hover:scale-105 shadow-soft hover:shadow-hover"
+                >
+                  Try Demo <ArrowRight className="ml-2 w-5 h-5" />
+                </Link>
+                <Link 
+                  to={ROUTES.ABOUT}
+                  className="inline-flex items-center px-8 py-4 bg-white/80 text-primary-600 hover:text-primary-600 rounded-lg hover:bg-white transition-all duration-300 transform hover:scale-105 shadow-soft hover:shadow-hover backdrop-blur-sm"
+                >
+                  Learn More <ArrowRight className="ml-2 w-5 h-5" />
+                </Link>
+              </motion.div>
             </motion.div>
           </div>
         </div>
@@ -98,7 +159,7 @@ const Home = () => {
               whileHover={{ y: -5 }}
               className="p-8 bg-white rounded-xl shadow-soft text-center"
             >
-              <ChartBar className="w-12 h-12 text-primary-600 mx-auto mb-4" />
+              <BarChart className="w-12 h-12 text-primary-600 mx-auto mb-4" /> // Changed from ChartBar
               <h3 className="text-4xl font-bold text-primary-700 mb-2">95.7%</h3>
               <p className="text-secondary-600">Accuracy on UCSD Ped2</p>
             </motion.div>

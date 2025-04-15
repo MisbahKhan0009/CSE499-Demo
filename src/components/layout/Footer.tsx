@@ -39,14 +39,14 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <p className="text-gray-300">CSE Department</p>
-                <p className="text-gray-300">SUST, Sylhet</p>
+                <p className="text-gray-300">ECE Department</p>
+                <p className="text-gray-300">NSU, Dhaka</p>
               </li>
             </ul>
           </div>
         </div>
         
-        <div className="mt-12 border-t border-gray-700 pt-8">
+        <div className="mt-12 border-t border-white-700 pt-8">
           <p className="text-center text-sm text-gray-300">
             © {new Date().getFullYear()} VisionGuard. All rights reserved.
           </p>
