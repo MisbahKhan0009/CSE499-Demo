@@ -7,6 +7,7 @@ import About from '@/pages/About';
 import RecentWorks from '@/pages/RecentWorks';
 import ExperimentalSetup from '@/pages/ExperimentalSetup';
 import Applications from '@/pages/Applications';
+import Results from '@/pages/Results';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <Route path="/applications" element={<Applications />} />
               <Route path="/demo" element={<Demo />} />
               <Route path="/about" element={<About />} />
+              <Route path="/results" element={<Results />} />
             </Routes>
           </div>
         </main>
